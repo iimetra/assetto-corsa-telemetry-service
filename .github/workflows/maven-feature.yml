@@ -21,9 +21,7 @@ jobs:
         uses: whelk-io/maven-settings-xml-action@v14
         with:
           repositories: '[{ "id": "github", "name": "github-act4j", "url": "https://maven.pkg.github.com/iimetra/assetto-corsa-telemetry-4j", "releases": { "enabled": "true" }, "snapshots": { "enabled": "false" } }]'
-          servers: '[{"id": "github", "username": "iimetra", "password": "${{ secrets.PASS }}"}]'
-      - run: |
-          cat ~/.m2/settings.xml
+          servers: '[{"id": "github", "${{ secrets.USER }}": "iimetra", "password": "${{ secrets.PASS }}"}]'
       - name: Maven Package
         run: mvn -B clean package -DskipTests
       - name: Maven Verify
