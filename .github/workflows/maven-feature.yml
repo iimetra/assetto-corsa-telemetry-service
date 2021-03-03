@@ -24,12 +24,6 @@ jobs:
           servers: '[{"id": "github", "username": "iimetra", "password": "${{ secrets.PASS }}"}]'
       - run: |
           cat ~/.m2/settings.xml
-#      - name: Cache Maven packages
-#        uses: actions/cache@v2
-#        with:
-#          path: ~/.m2
-#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-#          restore-keys: ${{ runner.os }}-m2
       - name: Maven Package
         run: mvn -B clean package -DskipTests
       - name: Maven Verify
