@@ -17,6 +17,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 8
+      - name: 'Create settings.xml'
+        uses: whelk-io/maven-settings-xml-action@v4
+        with:
+          servers: '[{"id": "github", "username": "${{ secrets.GITHUB_USERNAME }}", "password": "${{ secrets.GITHUB_PASSWORD }}"}]'
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
