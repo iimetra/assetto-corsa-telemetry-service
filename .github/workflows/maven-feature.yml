@@ -21,7 +21,7 @@ jobs:
         uses: whelk-io/maven-settings-xml-action@v14
         with:
           repositories: '[{ "id": "github-act4j", "name": "github-act4j", "url": "https://maven.pkg.github.com/iimetra/assetto-corsa-telemetry-4j", "releases": { "enabled": "true" }, "snapshots": { "enabled": "false" } }]'
-          servers: '[{"id": "github", "username": "${{ secrets.NAME }}", "password": "${{ secrets.PASS }}"}]'
+          servers: '[{"id": "github", "username": "iimetra", "password": "${{ secrets.PASS }}"}]'
       - run: |
           cat ~/.m2/settings.xml
 #      - name: Cache Maven packages
