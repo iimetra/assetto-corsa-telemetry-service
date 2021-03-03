@@ -1,0 +1,15 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB_v2_Flux
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    isDefault: true
+    secureJsonData:
+      token: act-token
+    jsonData:
+      version: Flux
+      organization: local
+      defaultBucket: assetto-corsa-telemetry
+      tlsSkipVerify: true

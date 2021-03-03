@@ -1,0 +1,48 @@
+version: '3.1'
+
+services:
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports:
+      - '8086:8086'
+    expose:
+      - '8086'
+    volumes:
+      - influxdb:/var/lib/influxdb
+
+  influxdb_cli:
+    image: influxdb
+    container_name: incluxdb_cli
+    entrypoint: influx setup --bucket assetto-corsa-telemetry -t act-token -o local --username=admin --password=adminadmin --host=http://influxdb:8086 -f
+    restart: on-failure:10
+    depends_on:
+      - influxdb
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    depends_on:
+      - influxdb_cli
+    expose:
+      - '3000'
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./deployment/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./deployment/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./deployment/grafana/dashboards:/var/lib/grafana/dashboards
+
+  act-app:
+    image: act-app
+    container_name: assetto-corsa-telemetry-forwarder
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - grafana
+
+volumes:
+  influxdb:
+  grafana:
