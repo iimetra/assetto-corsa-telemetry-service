@@ -30,9 +30,5 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Maven Package
         run: mvn -B clean package -DskipTests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Maven Verify
         run: mvn -B clean verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
