@@ -1,5 +1,5 @@
 ## Assetto Corsa Telemetry Service
-Expose telemetry data in graphical way to analyse them in real time
+Expose telemetry data in a graphical way to analyze it in real-time with Grafana dashboards
 
 ![](https://github.com/iimetra/assetto-corsa-telemetry-service/workflows/Master%20Branch/badge.svg)
 
@@ -7,7 +7,7 @@ Expose telemetry data in graphical way to analyse them in real time
 ### Pre-requirements
 1. Install [Docker](https://www.docker.com)
 2. Install [Maven](https://maven.apache.org)
-3. Find IP address of your PS4 and put in into application.properties file
+3. Find IP address of your PS4 and put it into application.properties file
 ### Run
 1. Start your Assetto Corsa game-session
 2. Execute the following commands to start up the web service:
@@ -17,7 +17,7 @@ docker-compose up -d
 ```
 3. Visit the [Grafana](http://localhost:3000) spun out on localhost and sign in with the admin / admin credentials
 4. Open Telemetry Dashboard from the Home folder
-5. Enjoy the telemetry diagrams in real time
+5. Enjoy the telemetry diagrams in real-time
 
 For a new session the following command has to be executed in order to reconnect to the server:
 ```bash
