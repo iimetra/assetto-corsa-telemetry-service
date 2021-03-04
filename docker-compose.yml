@@ -14,7 +14,7 @@ services:
   influxdb_cli:
     image: influxdb
     container_name: incluxdb_cli
-    entrypoint: influx setup --bucket assetto-corsa-telemetry -t act-token -o local --username=admin --password=adminadmin --host=http://influxdb:8086 -f
+    entrypoint: influx setup --bucket ${IDB_BUCKET_NAME} -t ${IDB_TOKEN} -o ${IDB_ORG} --username=${IDB_USERNAME} --password=${IDB_PASSWORD} --host=${IDB_HOST} -f
     restart: on-failure:10
     depends_on:
       - influxdb
@@ -40,6 +40,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - GAME_SERVER_IP_ADDRESS=${GAME_SERVER_IP_ADDRESS}
+      - IDB_BUCKET_NAME=${IDB_BUCKET_NAME}
+      - IDB_TOKEN=${IDB_TOKEN}
+      - IDB_ORG=${IDB_ORG}
+      - IDB_URL=${IDB_HOST}
     depends_on:
       - grafana
 

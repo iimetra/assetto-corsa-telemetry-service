@@ -7,7 +7,7 @@ Expose telemetry data in a graphical way to analyze it in real-time with Grafana
 ### Pre-requirements
 1. Install [Docker](https://www.docker.com)
 2. Install [Maven](https://maven.apache.org)
-3. Find IP address of your PS4 and put it into application.properties file
+3. Put local IP address of your PS4 system into `.env` file as `GAME_SERVER_IP_ADDRESS`
 ### Run
 1. Start your Assetto Corsa game-session
 2. Execute the following commands to start up the web service:
