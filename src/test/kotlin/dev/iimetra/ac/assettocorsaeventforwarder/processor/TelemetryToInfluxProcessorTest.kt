@@ -45,7 +45,7 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
         val points = argumentCaptor.firstValue
         assertThat(points)
             .isNotEmpty
-            .hasSize(6)
+            .hasSize(12)
             .extracting("name", "time", "fields")
             .isNotEmpty
     }
