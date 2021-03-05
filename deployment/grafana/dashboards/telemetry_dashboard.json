@@ -32,7 +32,7 @@
             "mode": "absolute",
             "steps": []
           },
-          "unit": "short"
+          "unit": "velocitykmh"
         },
         "overrides": []
       },
@@ -47,13 +47,16 @@
       "hiddenSeries": false,
       "id": 4,
       "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "max": true,
         "min": false,
+        "rightSide": false,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -129,7 +132,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:438",
+          "format": "velocitykmh",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -137,6 +141,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:439",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -160,10 +165,12 @@
         "defaults": {
           "color": {},
           "custom": {},
+          "displayName": "RPM",
           "thresholds": {
             "mode": "absolute",
             "steps": []
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -179,15 +186,15 @@
       "id": 2,
       "interval": null,
       "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
         "rightSide": false,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -245,6 +252,7 @@
       ],
       "thresholds": [
         {
+          "$$hashKey": "object:228",
           "colorMode": "critical",
           "fill": true,
           "line": true,
@@ -253,6 +261,7 @@
           "yaxis": "left"
         },
         {
+          "$$hashKey": "object:229",
           "colorMode": "ok",
           "fill": false,
           "line": false,
@@ -280,7 +289,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:91",
+          "format": "rotrpm",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -288,6 +298,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:92",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -306,10 +317,12 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {},
           "mappings": [],
+          "max": 100,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -322,7 +335,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -398,10 +412,12 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {},
           "mappings": [],
+          "max": 100,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -414,7 +430,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -490,14 +507,17 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {},
           "mappings": [],
+          "max": 100,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": []
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -567,6 +587,100 @@
       "timeShift": null,
       "title": "Gas Throttle",
       "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 10,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 7
+              }
+            ]
+          },
+          "unit": "accG"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 17
+      },
+      "id": 12,
+      "maxDataPoints": 3000,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"acceleration at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Acceleration",
+      "type": "stat"
     }
   ],
   "refresh": "5s",
@@ -598,5 +712,5 @@
   "timezone": "",
   "title": "Telemetry Dashboard",
   "uid": "dLBRwTyMz",
-  "version": 1
+  "version": 5
 }

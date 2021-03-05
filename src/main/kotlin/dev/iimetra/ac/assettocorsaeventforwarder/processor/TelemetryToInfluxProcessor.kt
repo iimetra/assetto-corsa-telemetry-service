@@ -4,6 +4,8 @@ import com.influxdb.client.InfluxDBClient
 import com.influxdb.client.domain.WritePrecision
 import com.influxdb.client.write.Point
 import dev.iimetra.ac.assettocorsaeventforwarder.model.TelemetryByDriver
+import dev.iimetra.ac.assettocorsaeventforwarder.toGPower
+import dev.iimetra.ac.assettocorsaeventforwarder.toPercent
 import dev.iimetra.assettocorsa4j.telemetry.model.response.HandshakeResponse
 import org.apache.camel.Exchange
 import org.apache.camel.Processor
@@ -32,7 +34,7 @@ class TelemetryToInfluxProcessor(
         val gasPoint = pointOf("gas at current time", driver, "gas", carTelemetry.gas.toPercent(), now)
         val brakePoint = pointOf("brake at current time", driver, "brake", carTelemetry.brake.toPercent(), now)
         val clutchPoint = pointOf("clutch at current time", driver, "clutch", carTelemetry.clutch.toPercent(), now)
-        val accelerationPoint = pointOf("acceleration at current time", driver, "acceleration", carTelemetry.speedMs, now)
+        val accelerationPoint = pointOf("acceleration at current time", driver, "acceleration", carTelemetry.speedMs.toGPower(), now)
 
         influxDbClient.writeApi.use { it.writePoints(bucket, org, listOf(speedPoint, rpmPoint, gasPoint, brakePoint, clutchPoint, accelerationPoint)) }
     }
@@ -51,5 +53,3 @@ class TelemetryToInfluxProcessor(
             .addField(fieldName, fieldValue)
     }
 }
-
-private fun Float.toPercent(): Float = this * 100
