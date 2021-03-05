@@ -700,7 +700,7 @@
               },
               {
                 "color": "red",
-                "value": ""
+                "value": 0
               }
             ]
           }
@@ -724,7 +724,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^isAbsEnabled$/",
           "values": false
         },
         "text": {},
@@ -749,7 +749,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsEnabled\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsEnabled\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -816,7 +816,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^isAbsInAction$/",
           "values": false
         },
         "text": {},
@@ -841,7 +841,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsInAction\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsInAction\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -908,7 +908,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^isEngineLimiterOn$/",
           "values": false
         },
         "text": {},
@@ -933,7 +933,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isEngineLimiterOn\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isEngineLimiterOn\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1000,7 +1000,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^isTcEnabled$/",
           "values": false
         },
         "text": {},
@@ -1025,7 +1025,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcEnabled\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcEnabled\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1092,7 +1092,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^isTcInAction$/",
           "values": false
         },
         "text": {},
@@ -1117,7 +1117,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcInAction\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcInAction\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1185,7 +1185,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^isInPit$/",
           "values": false
         },
         "text": {},
@@ -1210,7 +1210,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isInPit\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isInPit\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1265,5 +1265,5 @@
   "timezone": "",
   "title": "Telemetry Dashboard",
   "uid": "dLBRwTyMz",
-  "version": 5
+  "version": 7
 }
