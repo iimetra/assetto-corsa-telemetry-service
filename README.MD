@@ -21,7 +21,7 @@ docker-compose up -d
 
 For a new session the following command has to be executed in order to reconnect to the server:
 ```bash
-docker-compose restart assetto-corsa-telemetry-forwarder
+docker-compose restart act-app
 ```
 
 ## Workflow Diagram

@@ -50,6 +50,22 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
             .isNotEmpty
     }
 
+    @Test
+    internal fun testProcessorNoWriteForNoChanges() {
+        val exchange = DefaultExchange(DefaultCamelContext())
+        val driver = HandshakeResponse("carName", "driverName", 1, 1, "trackName", "trackConfig")
+        val carTelemetry = testCarTelemetryData()
+        exchange.message.body = TelemetryByDriver(driver, carTelemetry)
+
+        val writeApiMock = mock(WriteApi::class.java)
+        `when`(influxDBClient.writeApi).thenReturn(writeApiMock)
+
+        processor.process(exchange)
+        processor.process(exchange)
+
+        verify(writeApiMock).writePoints(anyString(), anyString(), anyList())
+    }
+
     private fun testCarTelemetryData() = CarTelemetry(
         1,
         2,

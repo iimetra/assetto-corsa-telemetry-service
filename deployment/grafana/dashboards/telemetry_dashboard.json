@@ -60,7 +60,7 @@
       },
       "lines": true,
       "linewidth": 1,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 200,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -92,7 +92,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"speed at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"speed at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -198,7 +198,7 @@
       },
       "lines": true,
       "linewidth": 1,
-      "maxDataPoints": 10000,
+      "maxDataPoints": 500,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -230,7 +230,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"engine RPM at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"engine RPM at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -347,7 +347,7 @@
         "y": 9
       },
       "id": 8,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -382,7 +382,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"brake at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"brake at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -442,7 +442,7 @@
         "y": 9
       },
       "id": 10,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -477,7 +477,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"clutch at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"clutch at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -528,7 +528,7 @@
         "y": 9
       },
       "id": 6,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -563,7 +563,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"gas at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"gas at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -624,7 +624,7 @@
         "y": 17
       },
       "id": 12,
-      "maxDataPoints": 3000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -659,7 +659,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"acceleration at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"acceleration at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -714,7 +714,7 @@
         "y": 17
       },
       "id": 14,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -749,7 +749,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsEnabled\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsEnabled\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -806,7 +806,7 @@
         "y": 17
       },
       "id": 15,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -841,7 +841,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsInAction\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"isAbsInAction\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -898,7 +898,7 @@
         "y": 17
       },
       "id": 16,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -933,7 +933,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isEngineLimiterOn\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"isEngineLimiterOn\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -990,7 +990,7 @@
         "y": 21
       },
       "id": 17,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1025,7 +1025,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcEnabled\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcEnabled\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1082,7 +1082,7 @@
         "y": 21
       },
       "id": 18,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1117,7 +1117,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcInAction\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"isTcInAction\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1175,7 +1175,7 @@
       },
       "id": 19,
       "interval": null,
-      "maxDataPoints": 5000,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1210,7 +1210,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isInPit\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"YES\" else \"NO\"}))\n  |> last()",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"isInPit\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1265,5 +1265,5 @@
   "timezone": "",
   "title": "Telemetry Dashboard",
   "uid": "dLBRwTyMz",
-  "version": 7
+  "version": 15
 }

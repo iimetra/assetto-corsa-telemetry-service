@@ -22,42 +22,48 @@ class TelemetryToInfluxProcessor(
     private val org: String
 ) : Processor {
 
+    var prev : TelemetryByDriver? = null
+
     override fun process(exchange: Exchange) {
         val telemetryByDriver = exchange.message.getBody(TelemetryByDriver::class.java)
-        val carTelemetry = telemetryByDriver.carTelemetry
-        val driver = telemetryByDriver.driver
+        if (telemetryByDriver != prev) {
+            prev = telemetryByDriver
 
-        val now = Instant.now()
+            val carTelemetry = telemetryByDriver.carTelemetry
+            val driver = telemetryByDriver.driver
 
-        val speedPoint = pointOf("speed at current time", driver, "speed", carTelemetry.speedKmh, now)
-        val rpmPoint = pointOf("engine RPM at current time", driver, "rpm", carTelemetry.engineRPM, now)
-        val gasPoint = pointOf("gas at current time", driver, "gas", carTelemetry.gas.toPercent(), now)
-        val brakePoint = pointOf("brake at current time", driver, "brake", carTelemetry.brake.toPercent(), now)
-        val clutchPoint = pointOf("clutch at current time", driver, "clutch", carTelemetry.clutch.toPercent(), now)
-        val accelerationPoint = pointOf("acceleration at current time", driver, "acceleration", carTelemetry.speedMs.toGPower(), now)
+            val now = Instant.now()
 
-        val absEnabled = pointOf("isAbsEnabled", driver, "isAbsEnabled", carTelemetry.isAbsEnabled, now)
-        val absInAction = pointOf("isAbsInAction", driver, "isAbsInAction", carTelemetry.isAbsInAction, now)
-        val tcInAction = pointOf("isTcInAction", driver, "isTcInAction", carTelemetry.isTcInAction, now)
-        val tcEnabled = pointOf("isTcEnabled", driver, "isTcEnabled", carTelemetry.isTcEnabled, now)
-        val inPit = pointOf("isInPit", driver, "isInPit", carTelemetry.isInPit, now)
-        val engineLimiterOn = pointOf("isEngineLimiterOn", driver, "isEngineLimiterOn", carTelemetry.isEngineLimiterOn, now)
+            val speedPoint = pointOf("speed at current time", driver, "speed", carTelemetry.speedKmh, now)
+            val rpmPoint = pointOf("engine RPM at current time", driver, "rpm", carTelemetry.engineRPM, now)
+            val gasPoint = pointOf("gas at current time", driver, "gas", carTelemetry.gas.toPercent(), now)
+            val brakePoint = pointOf("brake at current time", driver, "brake", carTelemetry.brake.toPercent(), now)
+            val clutchPoint = pointOf("clutch at current time", driver, "clutch", carTelemetry.clutch.toPercent(), now)
+            val accelerationPoint = pointOf("acceleration at current time", driver, "acceleration", carTelemetry.speedMs.toGPower(), now)
 
-        val points = listOf(
-            speedPoint,
-            rpmPoint,
-            gasPoint,
-            brakePoint,
-            clutchPoint,
-            accelerationPoint,
-            absEnabled,
-            absInAction,
-            tcInAction,
-            tcEnabled,
-            inPit,
-            engineLimiterOn
-        )
-        influxDbClient.writeApi.use { it.writePoints(bucket, org, points) }
+            val absEnabled = pointOf("isAbsEnabled", driver, "isAbsEnabled", carTelemetry.isAbsEnabled, now)
+            val absInAction = pointOf("isAbsInAction", driver, "isAbsInAction", carTelemetry.isAbsInAction, now)
+            val tcInAction = pointOf("isTcInAction", driver, "isTcInAction", carTelemetry.isTcInAction, now)
+            val tcEnabled = pointOf("isTcEnabled", driver, "isTcEnabled", carTelemetry.isTcEnabled, now)
+            val inPit = pointOf("isInPit", driver, "isInPit", carTelemetry.isInPit, now)
+            val engineLimiterOn = pointOf("isEngineLimiterOn", driver, "isEngineLimiterOn", carTelemetry.isEngineLimiterOn, now)
+
+            val points = listOf(
+                speedPoint,
+                rpmPoint,
+                gasPoint,
+                brakePoint,
+                clutchPoint,
+                accelerationPoint,
+                absEnabled,
+                absInAction,
+                tcInAction,
+                tcEnabled,
+                inPit,
+                engineLimiterOn
+            )
+            influxDbClient.writeApi.use { it.writePoints(bucket, org, points) }
+        }
     }
 
     private fun pointOf(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Float, now: Instant) : Point {
