@@ -724,7 +724,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^isAbsEnabled$/",
+          "fields": "/^isAbsEnabled .*$/",
           "values": false
         },
         "text": {},
@@ -816,7 +816,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^isAbsInAction$/",
+          "fields": "/^isAbsInAction .*$/",
           "values": false
         },
         "text": {},
@@ -908,7 +908,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^isEngineLimiterOn$/",
+          "fields": "/^isEngineLimiterOn .*$/",
           "values": false
         },
         "text": {},
@@ -1000,7 +1000,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^isTcEnabled$/",
+          "fields": "/^isTcEnabled .*$/",
           "values": false
         },
         "text": {},
@@ -1092,7 +1092,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^isTcInAction$/",
+          "fields": "/^isTcInAction .*$/",
           "values": false
         },
         "text": {},
@@ -1185,7 +1185,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^isInPit$/",
+          "fields": "/^isInPit .*$/",
           "values": false
         },
         "text": {},
@@ -1210,7 +1210,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isInPit\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"ON\" else \"OFF\"}))\n  |> last()",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1h)\n  |> filter(fn:(r) =>\n    r._measurement == \"isInPit\"\n  )\n  |> map(fn: (r) => ({ r with _value: if r._value == true then \"YES\" else \"NO\"}))\n  |> last()",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
