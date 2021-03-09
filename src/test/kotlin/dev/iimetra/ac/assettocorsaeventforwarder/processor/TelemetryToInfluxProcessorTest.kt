@@ -10,6 +10,7 @@ import dev.iimetra.assettocorsa4j.telemetry.model.response.HandshakeResponse
 import org.apache.camel.impl.DefaultCamelContext
 import org.apache.camel.support.DefaultExchange
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,8 +20,9 @@ import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
 internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDBClient) {
-    
+
     private lateinit var processor: TelemetryToInfluxProcessor
+    private val driver = HandshakeResponse("carName", "driverName", 1, 1, "trackName", "trackConfig")
 
     @BeforeEach
     internal fun setUp() {
@@ -30,7 +32,6 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
     @Test
     internal fun testProcess() {
         val exchange = DefaultExchange(DefaultCamelContext())
-        val driver = HandshakeResponse("carName", "driverName", 1, 1, "trackName", "trackConfig")
         val carTelemetry = testCarTelemetryData()
         exchange.message.body = TelemetryByDriver(driver, carTelemetry)
 
@@ -45,7 +46,7 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
         val points = argumentCaptor.firstValue
         assertThat(points)
             .isNotEmpty
-            .hasSize(12)
+            .hasSize(21)
             .extracting("name", "time", "fields")
             .isNotEmpty
     }
@@ -53,7 +54,6 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
     @Test
     internal fun testProcessorNoWriteForNoChanges() {
         val exchange = DefaultExchange(DefaultCamelContext())
-        val driver = HandshakeResponse("carName", "driverName", 1, 1, "trackName", "trackConfig")
         val carTelemetry = testCarTelemetryData()
         exchange.message.body = TelemetryByDriver(driver, carTelemetry)
 
@@ -66,7 +66,21 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
         verify(writeApiMock).writePoints(anyString(), anyString(), anyList())
     }
 
-    private fun testCarTelemetryData() = CarTelemetry(
+    @Test
+    internal fun testProcessor_sixWheelsCar() {
+        val exchange = DefaultExchange(DefaultCamelContext())
+        val carTelemetry = testCarTelemetryData(true)
+        exchange.message.body = TelemetryByDriver(driver, carTelemetry)
+
+        val writeApiMock = mock(WriteApi::class.java)
+        `when`(influxDBClient.writeApi).thenReturn(writeApiMock)
+
+        assertThatThrownBy { processor.process(exchange) }
+            .isInstanceOf(AssertionError::class.java)
+            .hasMessage("Only four wheel cars expected, but was 6")
+    }
+
+    private fun testCarTelemetryData(sixWheel: Boolean = false) = CarTelemetry(
         1,
         2,
         100f,
@@ -93,22 +107,22 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
         5f,
         1,
         5f,
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
-        floatArrayOf(5f),
+        if (sixWheel) floatArrayOf(5f, 5f, 5f, 5f, 5f, 5f) else floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(5f, 5f, 5f, 5f),
+        floatArrayOf(4.98f, 4.98f, 5.03f, 5.03f),
         1f,
         1f,
-        floatArrayOf(5f)
+        floatArrayOf(5f, 5f, 5f)
     )
 }
