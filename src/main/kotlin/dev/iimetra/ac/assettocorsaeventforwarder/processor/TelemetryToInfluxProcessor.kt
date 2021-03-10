@@ -35,19 +35,21 @@ class TelemetryToInfluxProcessor(
 
             val now = Instant.now()
 
-            val speedPoint = pointOfWheel("speed at current time", driver, "speed", carTelemetry.speedKmh, now)
-            val rpmPoint = pointOfWheel("engine RPM at current time", driver, "rpm", carTelemetry.engineRPM, now)
-            val gasPoint = pointOfWheel("gas at current time", driver, "gas", carTelemetry.gas.toPercent(), now)
-            val brakePoint = pointOfWheel("brake at current time", driver, "brake", carTelemetry.brake.toPercent(), now)
-            val clutchPoint = pointOfWheel("clutch at current time", driver, "clutch", carTelemetry.clutch.toPercent(), now)
-            val accelerationPoint = pointOfWheel("acceleration at current time", driver, "acceleration", carTelemetry.speedMs.toGPower(), now)
+            val speedPoint = pointOf("speed at current time", driver, "speed", carTelemetry.speedKmh, now)
+            val rpmPoint = pointOf("engine RPM at current time", driver, "rpm", carTelemetry.engineRPM, now)
+            val gasPoint = pointOf("gas at current time", driver, "gas", carTelemetry.gas.toPercent(), now)
+            val brakePoint = pointOf("brake at current time", driver, "brake", carTelemetry.brake.toPercent(), now)
+            val clutchPoint = pointOf("clutch at current time", driver, "clutch", carTelemetry.clutch.toPercent(), now)
+            val accelerationPoint = pointOf("acceleration at current time", driver, "acceleration", carTelemetry.speedMs.toGPower(), now)
 
-            val absEnabled = pointOfWheel("isAbsEnabled", driver, "isAbsEnabled", carTelemetry.isAbsEnabled, now)
-            val absInAction = pointOfWheel("isAbsInAction", driver, "isAbsInAction", carTelemetry.isAbsInAction, now)
-            val tcInAction = pointOfWheel("isTcInAction", driver, "isTcInAction", carTelemetry.isTcInAction, now)
-            val tcEnabled = pointOfWheel("isTcEnabled", driver, "isTcEnabled", carTelemetry.isTcEnabled, now)
-            val inPit = pointOfWheel("isInPit", driver, "isInPit", carTelemetry.isInPit, now)
-            val engineLimiterOn = pointOfWheel("isEngineLimiterOn", driver, "isEngineLimiterOn", carTelemetry.isEngineLimiterOn, now)
+            val lapCompletenessPoint = pointOf("lap completeness", driver, "carPositionNormalized", carTelemetry.carPositionNormalized.toPercent(), now)
+
+            val absEnabled = pointOf("isAbsEnabled", driver, "isAbsEnabled", carTelemetry.isAbsEnabled, now)
+            val absInAction = pointOf("isAbsInAction", driver, "isAbsInAction", carTelemetry.isAbsInAction, now)
+            val tcInAction = pointOf("isTcInAction", driver, "isTcInAction", carTelemetry.isTcInAction, now)
+            val tcEnabled = pointOf("isTcEnabled", driver, "isTcEnabled", carTelemetry.isTcEnabled, now)
+            val inPit = pointOf("isInPit", driver, "isInPit", carTelemetry.isInPit, now)
+            val engineLimiterOn = pointOf("isEngineLimiterOn", driver, "isEngineLimiterOn", carTelemetry.isEngineLimiterOn, now)
 
             val suspensionHeightPoint = pointOfWheel("suspensionHeight", driver, carTelemetry.suspensionHeight, now)
             val angularSpeedPoint = pointOfWheel("wheelAngularSpeed", driver, carTelemetry.wheelAngularSpeed, now)
@@ -81,7 +83,8 @@ class TelemetryToInfluxProcessor(
                 slipRatioPoint,
                 ndSlipPoint,
                 loadPoint,
-                coordsPoint
+                coordsPoint,
+                lapCompletenessPoint
             )
             influxDbClient.writeApi.use { it.writePoints(bucket, org, points) }
         }
@@ -129,7 +132,7 @@ class TelemetryToInfluxProcessor(
             )
     }
 
-    private fun pointOfWheel(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Float, now: Instant): Point {
+    private fun pointOf(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Float, now: Instant): Point {
         return Point.measurement(measurement)
             .time(now, WritePrecision.NS)
             .addTags(
@@ -143,7 +146,7 @@ class TelemetryToInfluxProcessor(
             .addField(fieldName, fieldValue)
     }
 
-    private fun pointOfWheel(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Boolean, now: Instant): Point {
+    private fun pointOf(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Boolean, now: Instant): Point {
         return Point.measurement(measurement)
             .time(now, WritePrecision.NS)
             .addTags(
