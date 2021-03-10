@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration
 class InfluxDbConfig {
 
     @Bean
-    fun influxDbClient(@Value("\${influx.db.url}") url: String, @Value("\${influx.db.token}") token: String, @Value("\${influx.db.org}") org: String) : InfluxDBClient {
+    fun influxDbClient(@Value("\${influx.db.url}") url: String, @Value("\${influx.db.token}") token: String, @Value("\${influx.db.org}") org: String): InfluxDBClient {
         return InfluxDBClientFactory.create(url, token.toCharArray(), org).enableGzip()
     }
 }
