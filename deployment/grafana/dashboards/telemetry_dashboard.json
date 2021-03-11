@@ -682,7 +682,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"clutch at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"gas at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -704,7 +704,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Clutch Throttle",
+      "title": "Gas Throttle",
       "type": "stat"
     },
     {
@@ -1468,5 +1468,5 @@
   "timezone": "",
   "title": "Telemetry Dashboard",
   "uid": "dLBRwTyMz",
-  "version": 18
+  "version": 20
 }
