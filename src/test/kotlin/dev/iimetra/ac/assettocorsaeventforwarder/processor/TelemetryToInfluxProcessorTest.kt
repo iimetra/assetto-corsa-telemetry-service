@@ -30,7 +30,7 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
     }
 
     @Test
-    internal fun testProcess() {
+    internal fun `test processor - happy path`() {
         val exchange = DefaultExchange(DefaultCamelContext())
         val carTelemetry = testCarTelemetryData()
         exchange.message.body = TelemetryByDriver(driver, carTelemetry)
@@ -52,7 +52,7 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
     }
 
     @Test
-    internal fun testProcessorNoWriteForNoChanges() {
+    internal fun `test processor - no write for no changes`() {
         val exchange = DefaultExchange(DefaultCamelContext())
         val carTelemetry = testCarTelemetryData()
         exchange.message.body = TelemetryByDriver(driver, carTelemetry)
@@ -67,7 +67,7 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
     }
 
     @Test
-    internal fun testProcessor_sixWheelsCar() {
+    internal fun `test processor - receives six wheels car - throws exception`() {
         val exchange = DefaultExchange(DefaultCamelContext())
         val carTelemetry = testCarTelemetryData(true)
         exchange.message.body = TelemetryByDriver(driver, carTelemetry)
@@ -76,7 +76,7 @@ internal class TelemetryToInfluxProcessorTest(@Mock val influxDBClient: InfluxDB
         `when`(influxDBClient.writeApi).thenReturn(writeApiMock)
 
         assertThatThrownBy { processor.process(exchange) }
-            .isInstanceOf(AssertionError::class.java)
+            .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("Only four wheel cars expected, but was 6")
     }
 

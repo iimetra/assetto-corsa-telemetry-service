@@ -90,8 +90,8 @@ class TelemetryToInfluxProcessor(
         }
     }
 
-    private fun coordinatesPoint(driver: HandshakeResponse, carTelemetry: CarTelemetry, now: Instant): Point {
-        return Point.measurement("carCoordinates")
+    private fun coordinatesPoint(driver: HandshakeResponse, carTelemetry: CarTelemetry, now: Instant) =
+        Point.measurement("carCoordinates")
             .time(now, WritePrecision.NS)
             .addTags(
                 mapOf(
@@ -108,13 +108,16 @@ class TelemetryToInfluxProcessor(
                     "z" to carTelemetry.carCoordinates[2]
                 )
             )
-    }
 
     private fun pointOfWheel(measurement: String, driver: HandshakeResponse, wheels: FloatArray, now: Instant): Point {
-        assert(wheels.size == 4) { "Only four wheel cars expected, but was ${wheels.size}" }
-        return Point.measurement(measurement)
-            .time(now, WritePrecision.NS)
-            .addTags(
+        with(wheels.size) {
+            require(this == 4) {
+                "Only four wheel cars expected, but was $this"
+            }
+        }
+        return Point(measurement).apply {
+            time(now, WritePrecision.NS)
+            addTags(
                 mapOf(
                     "driver" to driver.driverName,
                     "track" to driver.trackName,
@@ -122,7 +125,7 @@ class TelemetryToInfluxProcessor(
                     "track_config" to driver.trackConfig
                 )
             )
-            .addFields(
+            addFields(
                 mapOf(
                     "leftFrontWheel" to wheels[0],
                     "rightFrontWheel" to wheels[1],
@@ -130,10 +133,11 @@ class TelemetryToInfluxProcessor(
                     "rightRearWheel" to wheels[3]
                 )
             )
+        }
     }
 
-    private fun pointOf(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Float, now: Instant): Point {
-        return Point.measurement(measurement)
+    private fun pointOf(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Float, now: Instant) =
+        Point.measurement(measurement)
             .time(now, WritePrecision.NS)
             .addTags(
                 mapOf(
@@ -144,10 +148,9 @@ class TelemetryToInfluxProcessor(
                 )
             )
             .addField(fieldName, fieldValue)
-    }
 
-    private fun pointOf(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Boolean, now: Instant): Point {
-        return Point.measurement(measurement)
+    private fun pointOf(measurement: String, driver: HandshakeResponse, fieldName: String, fieldValue: Boolean, now: Instant) =
+        Point.measurement(measurement)
             .time(now, WritePrecision.NS)
             .addTags(
                 mapOf(
@@ -158,5 +161,4 @@ class TelemetryToInfluxProcessor(
                 )
             )
             .addField(fieldName, fieldValue)
-    }
 }

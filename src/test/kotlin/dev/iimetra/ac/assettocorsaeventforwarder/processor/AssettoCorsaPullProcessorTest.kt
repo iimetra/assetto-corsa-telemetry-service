@@ -25,7 +25,7 @@ internal class AssettoCorsaPullProcessorTest(@Mock val acClient: ACClient) {
     }
 
     @Test
-    internal fun testInit() {
+    internal fun `test processor initialization - make connection`() {
         val carName = "carName"
         val driverName = "driverName"
         val trackName = "trackName"
@@ -46,7 +46,7 @@ internal class AssettoCorsaPullProcessorTest(@Mock val acClient: ACClient) {
     }
 
     @Test
-    internal fun testProcess() {
+    internal fun `test processor - happy path`() {
         val exchange = DefaultExchange(DefaultCamelContext())
         val carTelemetry = CarTelemetry()
         `when`(acClient.connect()).thenReturn(HandshakeResponse())

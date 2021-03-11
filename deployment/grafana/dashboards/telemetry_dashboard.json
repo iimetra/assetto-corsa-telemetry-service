@@ -19,6 +19,116 @@
   "links": [],
   "panels": [
     {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 23,
+      "panels": [
+        {
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": null,
+                "filterable": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 4,
+            "x": 0,
+            "y": 1
+          },
+          "id": 25,
+          "options": {
+            "frameIndex": 1,
+            "showHeader": true
+          },
+          "pluginVersion": "7.4.3",
+          "targets": [
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"suspensionHeight\"\n  )\n  |> last()",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "title": "Suspension Height",
+          "type": "table"
+        }
+      ],
+      "title": "Wheels",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 21,
+      "panels": [],
+      "title": "Dynamic",
+      "type": "row"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -42,7 +152,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 2
       },
       "hiddenSeries": false,
       "id": 4,
@@ -180,7 +290,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 2
       },
       "hiddenSeries": false,
       "id": 2,
@@ -344,7 +454,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 9
+        "y": 11
       },
       "id": 8,
       "maxDataPoints": 100,
@@ -439,7 +549,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 9
+        "y": 11
       },
       "id": 10,
       "maxDataPoints": 100,
@@ -515,7 +625,16 @@
           "min": 0,
           "thresholds": {
             "mode": "absolute",
-            "steps": []
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "percent"
         },
@@ -525,9 +644,9 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 9
+        "y": 11
       },
-      "id": 6,
+      "id": 26,
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -563,7 +682,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"gas at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"clutch at current time\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -585,7 +704,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Gas Throttle",
+      "title": "Clutch Throttle",
       "type": "stat"
     },
     {
@@ -621,7 +740,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 17
+        "y": 19
       },
       "id": 12,
       "maxDataPoints": 100,
@@ -711,7 +830,7 @@
         "h": 4,
         "w": 2,
         "x": 8,
-        "y": 17
+        "y": 19
       },
       "id": 14,
       "maxDataPoints": 100,
@@ -803,7 +922,7 @@
         "h": 4,
         "w": 2,
         "x": 10,
-        "y": 17
+        "y": 19
       },
       "id": 15,
       "maxDataPoints": 100,
@@ -895,7 +1014,7 @@
         "h": 4,
         "w": 2,
         "x": 12,
-        "y": 17
+        "y": 19
       },
       "id": 16,
       "maxDataPoints": 100,
@@ -963,6 +1082,90 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 19
+      },
+      "id": 6,
+      "maxDataPoints": 100,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket:\"assetto-corsa-telemetry\")\n  |> range(start:-1m)\n  |> filter(fn:(r) =>\n    r._measurement == \"lap completeness\"\n  )\n  |> aggregateWindow(every: 1s, fn: mean)",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Lap Completeness",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "mode": "thresholds"
           },
           "custom": {},
@@ -987,7 +1190,7 @@
         "h": 4,
         "w": 2,
         "x": 8,
-        "y": 21
+        "y": 23
       },
       "id": 17,
       "maxDataPoints": 100,
@@ -1079,7 +1282,7 @@
         "h": 4,
         "w": 2,
         "x": 10,
-        "y": 21
+        "y": 23
       },
       "id": 18,
       "maxDataPoints": 100,
@@ -1171,7 +1374,7 @@
         "h": 4,
         "w": 2,
         "x": 12,
-        "y": 21
+        "y": 23
       },
       "id": 19,
       "interval": null,
@@ -1265,5 +1468,5 @@
   "timezone": "",
   "title": "Telemetry Dashboard",
   "uid": "dLBRwTyMz",
-  "version": 15
+  "version": 18
 }
