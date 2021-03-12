@@ -3,7 +3,7 @@ Expose telemetry data in a graphical way to analyze it in real-time with Grafana
 
 ![](https://github.com/iimetra/assetto-corsa-telemetry-service/workflows/Master%20Branch/badge.svg)
 
-Demonstration:
+## Demonstration
 
 [![Watch the video](https://img.youtube.com/vi/4r4DgFnb5Tk/hqdefault.jpg)](https://youtu.be/4r4DgFnb5Tk)
 
