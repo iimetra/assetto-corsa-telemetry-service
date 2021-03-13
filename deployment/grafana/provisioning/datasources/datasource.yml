@@ -4,12 +4,12 @@ datasources:
   - name: InfluxDB_v2_Flux
     type: influxdb
     access: proxy
-    url: http://influxdb:8086
+    url: $IDB_URL
     isDefault: true
     secureJsonData:
-      token: act-token
+      token: $IDB_TOKEN
     jsonData:
       version: Flux
-      organization: local
-      defaultBucket: assetto-corsa-telemetry
+      organization: $IDB_ORG
+      defaultBucket: $IDB_BUCKET_NAME
       tlsSkipVerify: true

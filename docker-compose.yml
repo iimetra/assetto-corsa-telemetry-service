@@ -33,6 +33,11 @@ services:
       - ./deployment/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./deployment/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./deployment/grafana/dashboards:/var/lib/grafana/dashboards
+    environment:
+      - IDB_BUCKET_NAME=${IDB_BUCKET_NAME}
+      - IDB_TOKEN=${IDB_TOKEN}
+      - IDB_ORG=${IDB_ORG}
+      - IDB_URL=${IDB_HOST}
 
   act-app:
     image: act-app
